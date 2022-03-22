@@ -17,8 +17,8 @@ public class CarreraDAOImpl implements CarreraDAO {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Carrera> findById(Integer Id) {
-        return repository.findById(Id);
+    public Optional<Carrera> findById(Integer id) {
+        return repository.findById(id);
     }
 
     @Override
@@ -28,15 +28,14 @@ public class CarreraDAOImpl implements CarreraDAO {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Iterable<Carrera> findAll() {
         return repository.findAll();
     }
 
     @Override
     @Transactional
-    public void deleteById(Integer Id) {
-        repository.deleteById(Id);
+    public void deletedById(Integer id) {
+       repository.deleteById(id);
     }
-
 }

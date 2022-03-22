@@ -8,53 +8,39 @@ import java.util.Set;
 
 @Entity
 @Table(name = "pabellones")
-public class Pabellon implements Serializable{
+public class Pabellon implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column (name ="medidas_m2")
+    @Column(name = "metros_cuadrados")
     private Double mts2;
-    @Column (name ="nombre_pabellon", unique = true,nullable = false)
+    @Column(name = "nombre_pabellon", unique = true, nullable = false)
     private String nombre;
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "codigoPostal", column = @Column(name = "codigo_postal")),
             @AttributeOverride(name = "dpto", column = @Column(name = "departamento"))
     })
-    private Dirección dirección;
-    @Column (name = "fecha_alta")
+    private Direccion direccion;
+    @Column(name = "fecha_alta")
     private LocalDateTime fechaAlta;
-    @Column (name ="fecha_Modificaion")
-    private LocalDateTime fechaUltimaModificaion;
+    @Column(name = "fecha_modificacion")
+    private LocalDateTime fechaModificacion;
     @OneToMany(
             mappedBy = "pabellon",
             fetch = FetchType.LAZY
     )
     private Set<Aula> aulas;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Pabellon pabellon = (Pabellon) o;
-        return id.equals(pabellon.id) && nombre.equals(pabellon.nombre);
+    public Pabellon() {
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, nombre);
-    }
-
-    @Override
-    public String toString() {
-        return "Pabellon{" +
-                "id=" + id +
-                ", mts2=" + mts2 +
-                ", nombre='" + nombre + '\'' +
-                ", dirección=" + dirección +
-                ", fechaAlta=" + fechaAlta +
-                ", fechaUltimaModificaion=" + fechaUltimaModificaion +
-                '}';
+    public Pabellon(Integer id, Double mts2, String nombre, Direccion direccion) {
+        this.id = id;
+        this.mts2 = mts2;
+        this.nombre = nombre;
+        this.direccion = direccion;
     }
 
     public Integer getId() {
@@ -81,12 +67,12 @@ public class Pabellon implements Serializable{
         this.nombre = nombre;
     }
 
-    public Dirección getDirección() {
-        return dirección;
+    public Direccion getDireccion() {
+        return direccion;
     }
 
-    public void setDirección(Dirección dirección) {
-        this.dirección = dirección;
+    public void setDireccion(Direccion direccion) {
+        this.direccion = direccion;
     }
 
     public LocalDateTime getFechaAlta() {
@@ -97,12 +83,12 @@ public class Pabellon implements Serializable{
         this.fechaAlta = fechaAlta;
     }
 
-    public LocalDateTime getFechaUltimaModificaion() {
-        return fechaUltimaModificaion;
+    public LocalDateTime getFechaModificacion() {
+        return fechaModificacion;
     }
 
-    public void setFechaUltimaModificaion(LocalDateTime fechaUltimaModificaion) {
-        this.fechaUltimaModificaion = fechaUltimaModificaion;
+    public void setFechaModificacion(LocalDateTime fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
     }
 
     public Set<Aula> getAulas() {
@@ -117,19 +103,34 @@ public class Pabellon implements Serializable{
     private void antesDePersistir(){
         this.fechaAlta = LocalDateTime.now();
     }
+
     @PreUpdate
     private void antesDeUpdate(){
-        this.fechaUltimaModificaion = LocalDateTime.now();
+        this.fechaModificacion = LocalDateTime.now();
     }
 
-    public Pabellon(Integer id, Double mts2, String nombre, Dirección dirección) {
-        this.id = id;
-        this.mts2 = mts2;
-        this.nombre = nombre;
-        this.dirección = dirección;
+    @Override
+    public String toString() {
+        return "Pabellon{" +
+                "id=" + id +
+                ", mts2=" + mts2 +
+                ", nombre='" + nombre + '\'' +
+                ", direccion=" + direccion +
+                ", fechaAlta=" + fechaAlta +
+                ", fechaUltimaModificacion=" + fechaModificacion +
+                '}';
     }
 
-    public Pabellon() {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pabellon pabellon = (Pabellon) o;
+        return id.equals(pabellon.id) && nombre.equals(pabellon.nombre);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nombre);
+    }
 }

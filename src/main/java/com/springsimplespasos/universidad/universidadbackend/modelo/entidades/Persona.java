@@ -6,38 +6,39 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "personas")
-public abstract class Persona implements Serializable{
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Persona implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column (nullable = false, length = 60)
+    @Column(nullable = false, length = 60)
     private String nombre;
-    @Column (nullable = false, length = 60)
+    @Column(nullable = false, length = 60)
     private String apellido;
-    @Column (nullable = false, length = 10)
+    @Column(nullable = false, unique = true, length = 10)
     private String dni;
-    @Column (name ="fecha_alta")
+    @Column(name = "fecha_alta")
     private LocalDateTime fechaAlta;
-    @Column (name ="fecha_Modificaion")
-    private LocalDateTime fechaUltimaModificaion;
+    @Column(name = "fecha_modificacion")
+    private LocalDateTime fechaModificacion;
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "codigoPostal", column = @Column(name = "codigo_postal")),
             @AttributeOverride(name = "dpto", column = @Column(name = "departamento"))
     })
-    private Dirección dirección;
+    private Direccion direccion;
 
     public Persona() {
     }
 
-    public Persona(Integer id, String nombre, String apellido, String dni, Dirección dirección) {
+    public Persona(Integer id, String nombre, String apellido, String dni, Direccion direccion) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
-        this.dirección = dirección;
+        this.direccion = direccion;
     }
 
     public Integer getId() {
@@ -80,31 +81,31 @@ public abstract class Persona implements Serializable{
         this.fechaAlta = fechaAlta;
     }
 
-    public LocalDateTime getFechaUltimaModificaion() {
-        return fechaUltimaModificaion;
+    public LocalDateTime getFechaModificacion() {
+        return fechaModificacion;
     }
 
-    public void setFechaUltimaModificaion(LocalDateTime fechaUltimaModificaion) {
-        this.fechaUltimaModificaion = fechaUltimaModificaion;
+    public void setFechaModificacion(LocalDateTime fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
     }
 
-    public Dirección getDirección() {
-        return dirección;
+    public Direccion getDireccion() {
+        return direccion;
     }
 
-    public void setDirección(Dirección dirección) {
-        this.dirección = dirección;
+    public void setDireccion(Direccion direccion) {
+        this.direccion = direccion;
     }
 
     @PrePersist
     private void antesDePersistir(){
         this.fechaAlta = LocalDateTime.now();
     }
+
     @PreUpdate
     private void antesDeUpdate(){
-        this.fechaUltimaModificaion = LocalDateTime.now();
+        this.fechaModificacion = LocalDateTime.now();
     }
-
 
     @Override
     public String toString() {
@@ -114,8 +115,8 @@ public abstract class Persona implements Serializable{
                 ", apellido='" + apellido + '\'' +
                 ", dni='" + dni + '\'' +
                 ", fechaAlta=" + fechaAlta +
-                ", fechaUltimaModificaion=" + fechaUltimaModificaion +
-                ", dirección=" + dirección +
+                ", fechaModificacion=" + fechaModificacion +
+                ", direccion=" + direccion +
                 '}';
     }
 
@@ -131,4 +132,5 @@ public abstract class Persona implements Serializable{
     public int hashCode() {
         return Objects.hash(id, dni);
     }
+
 }

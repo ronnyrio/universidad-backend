@@ -1,18 +1,17 @@
 package com.springsimplespasos.universidad.universidadbackend.modelo.entidades;
 
 import com.springsimplespasos.universidad.universidadbackend.modelo.entidades.enumeradores.TipoEmpleado;
-import net.bytebuddy.implementation.bytecode.assign.Assigner;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table (name = "empleados")
+@Table(name = "empleados")
 @PrimaryKeyJoinColumn(name = "persona_id")
-public class Empleado extends Persona{
+public class Empleado extends Persona {
 
     private BigDecimal sueldo;
-    @Column (name = "tipo_empleado")
+    @Column(name = "tipo_empleado")
     @Enumerated(EnumType.STRING)
     private TipoEmpleado tipoEmpleado;
     @OneToOne(
@@ -21,16 +20,15 @@ public class Empleado extends Persona{
     )
     @JoinColumn(
             name = "pabellon_id",
-            foreignKey = @ForeignKey (name = "FK_PABELLON_ID")
+            foreignKey = @ForeignKey(name = "FK_PABELLON_ID")
     )
     private Pabellon pabellon;
 
-    public Empleado(){
-
+    public Empleado() {
     }
 
-    public Empleado(Integer id, String nombre, String apellido, String dni, Dirección dirección, BigDecimal sueldo, TipoEmpleado tipoEmpleado) {
-        super(id, nombre, apellido, dni, dirección);
+    public Empleado(Integer id, String nombre, String apellido, String dni, Direccion direccion, BigDecimal sueldo, TipoEmpleado tipoEmpleado) {
+        super(id, nombre, apellido, dni, direccion);
         this.sueldo = sueldo;
         this.tipoEmpleado = tipoEmpleado;
     }
@@ -61,7 +59,7 @@ public class Empleado extends Persona{
 
     @Override
     public String toString() {
-        return  super.toString() +
+        return super.toString() +
                 "\tEmpleado{" +
                 "sueldo=" + sueldo +
                 ", tipoEmpleado=" + tipoEmpleado +

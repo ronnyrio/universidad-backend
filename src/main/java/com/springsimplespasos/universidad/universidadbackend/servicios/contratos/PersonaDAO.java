@@ -4,8 +4,8 @@ import com.springsimplespasos.universidad.universidadbackend.modelo.entidades.Pe
 
 import java.util.Optional;
 
-public interface AlumnoDao {
-    Optional<Persona>findById(Integer id);
+public interface PersonaDAO {
+    Optional<Persona> findById(Integer id);
     Persona save(Persona persona);
     Iterable<Persona> findAll();
     void deleteById(Integer id);
