@@ -1,6 +1,7 @@
 package com.springsimplespasos.universidad.universidadbackend.servicios.implementaciones;
 
 import com.springsimplespasos.universidad.universidadbackend.modelo.entidades.Persona;
+import com.springsimplespasos.universidad.universidadbackend.repositorios.AlumnoRepository;
 import com.springsimplespasos.universidad.universidadbackend.repositorios.PersonaRepository;
 import com.springsimplespasos.universidad.universidadbackend.servicios.contratos.AlumnoDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,34 +12,16 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
-public class AlumnoDAOImpl implements AlumnoDAO {
+public class AlumnoDAOImpl extends PersonaDAOImpl implements AlumnoDAO {
 
     @Autowired
-    @Qualifier("repositorioAlumnos")
-    private PersonaRepository repository;
-
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<Persona> findById(Integer id) {
-        return repository.findById(id);
+    public AlumnoDAOImpl(@Qualifier("repositorioAlumnos")PersonaRepository repository) {
+        super(repository);
     }
 
     @Override
-    @Transactional
-    public Persona save(Persona persona) {
-        return repository.save(persona);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Iterable<Persona> findAll() {
-        return repository.findAll();
-    }
-
-    @Override
-    @Transactional
-    public void deleteById(Integer id) {
-        repository.deleteById(id);
-
+    @Transactional(readOnly =true)
+    public Iterable<Persona> buscarAlumnosPorNombreCarrera(String nombre) {
+        return ((AlumnoRepository)repository).buscarAlumnosPorNombreCarrera(nombre);
     }
 }

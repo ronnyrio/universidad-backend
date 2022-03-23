@@ -1,6 +1,10 @@
 package com.springsimplespasos.universidad.universidadbackend.servicios.contratos;
 
-public interface AlumnoDAO extends PersonaDAO{
 
+import com.springsimplespasos.universidad.universidadbackend.modelo.entidades.Persona;
+
+public interface AlumnoDAO extends PersonaDAO {
+
+    Iterable<Persona> buscarAlumnosPorNombreCarrera(String nombre);
 
 }
