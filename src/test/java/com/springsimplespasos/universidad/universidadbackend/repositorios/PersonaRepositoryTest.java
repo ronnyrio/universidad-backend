@@ -21,9 +21,11 @@ class PersonaRepositoryTest {
     @Autowired
     @Qualifier("repositorioAlumnos")
     PersonaRepository alumnoRepository;
+
     @Autowired
     @Qualifier("empleadoRepository")
     PersonaRepository empleadoRepository;
+
     @Autowired
     @Qualifier("profesorRepository")
     PersonaRepository profesorRepository;
