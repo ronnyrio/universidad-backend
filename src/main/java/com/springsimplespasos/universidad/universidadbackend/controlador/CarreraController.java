@@ -43,7 +43,7 @@ public class CarreraController {
         if (carrera.getCantidadAnios() < 0) {
             throw new BadRequestException("El campo cantidad de años no puede ser negativo finu");
         }
-        if (carrera.getCantidaMaterias() < 0) {
+        if (carrera.getCantidadMaterias() < 0) {
             throw new BadRequestException("El campo cantidad de materias no puede ser negativo");
         }
         return carreraDAO.save(carrera);
@@ -59,12 +59,12 @@ public class CarreraController {
         }
         carreraUpdate = oCarrera.get();
         carreraUpdate.setCantidadAnios(carrera.getCantidadAnios());
-        carreraUpdate.setCantidaMaterias(carreraUpdate.getCantidaMaterias());
+        carreraUpdate.setCantidadMaterias(carreraUpdate.getCantidadMaterias());
         return carreraDAO.save(carreraUpdate);
     }
 
     @DeleteMapping("/{id}")
     public void eliminarCarrera(@PathVariable Integer id){
-        carreraDAO.deleteById(id);
+        carreraDAO.deletedById(id);
     }
 }

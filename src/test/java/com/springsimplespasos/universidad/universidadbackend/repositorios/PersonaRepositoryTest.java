@@ -1,6 +1,5 @@
 package com.springsimplespasos.universidad.universidadbackend.repositorios;
 
-import com.springsimplespasos.universidad.universidadbackend.datos.DatosDummy;
 import com.springsimplespasos.universidad.universidadbackend.modelo.entidades.Empleado;
 import com.springsimplespasos.universidad.universidadbackend.modelo.entidades.Persona;
 import com.springsimplespasos.universidad.universidadbackend.modelo.entidades.Profesor;
@@ -15,7 +14,6 @@ import java.util.Optional;
 
 import static com.springsimplespasos.universidad.universidadbackend.datos.DatosDummy.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class PersonaRepositoryTest {
@@ -28,7 +26,7 @@ class PersonaRepositoryTest {
     PersonaRepository empleadoRepository;
     @Autowired
     @Qualifier("profesorRepository")
-    PersonaRepository profesoreRepository;
+    PersonaRepository profesorRepository;
 
     @Test
     void buscarPorNombreYApellido() {
@@ -47,10 +45,10 @@ class PersonaRepositoryTest {
     @Test
     void buscarPorDni() {
         //Given
-        Persona save = profesoreRepository.save(profesor01());
+        Persona save = profesorRepository.save(profesor01());
 
         //When
-        Optional<Persona> expected = profesoreRepository.buscarPorDni(profesor01().getDni());
+        Optional<Persona> expected = profesorRepository.buscarPorDni(profesor01().getDni());
 
         //Then
         assertThat(expected.get()).isInstanceOf(Profesor.class);

@@ -4,7 +4,7 @@ import com.springsimplespasos.universidad.universidadbackend.modelo.entidades.Pe
 
 import java.util.Optional;
 
-public interface PersonaDAO extends GenericoDAO<Persona> {
+public interface PersonaDAO extends GenericDAO<Persona> {
 
     Optional<Persona> buscarPorNombreYApellido(String nombre, String apellido);
     Optional<Persona> buscarPorDni(String dni);

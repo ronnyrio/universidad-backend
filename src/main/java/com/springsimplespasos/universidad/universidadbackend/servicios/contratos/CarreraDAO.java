@@ -4,7 +4,7 @@ import com.springsimplespasos.universidad.universidadbackend.modelo.entidades.Ca
 
 import java.util.Optional;
 
-public interface CarreraDAO extends GenericoDAO<Carrera> {
+public interface CarreraDAO extends GenericDAO<Carrera> {
 
     Iterable<Carrera> findCarrerasByNombreContains(String nombre);
     Iterable<Carrera> findCarrerasByNombreContainsIgnoreCase(String nombre);
