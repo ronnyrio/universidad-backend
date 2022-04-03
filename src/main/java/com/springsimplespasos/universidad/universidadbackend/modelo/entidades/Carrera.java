@@ -1,5 +1,7 @@
 package com.springsimplespasos.universidad.universidadbackend.modelo.entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -29,6 +31,7 @@ public class Carrera implements Serializable {
             mappedBy = "carrera",
             fetch = FetchType.LAZY
     )
+    @JsonIgnoreProperties({"carrera"})
     private Set<Alumno> alumnos;
 
 
@@ -43,6 +46,7 @@ public class Carrera implements Serializable {
             mappedBy = "carreras",
             fetch = FetchType.LAZY
     )
+    @JsonIgnoreProperties({"carreras"})
     private Set<Profesor> profesores;
     @Override
     public int hashCode() {
