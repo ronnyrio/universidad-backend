@@ -27,19 +27,6 @@ public class Aula implements Serializable {
     @Column (name ="fecha_Modificaion")
     private LocalDateTime fechaUltimaModificaion;
 
-    @ManyToOne(
-            optional = true,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            }
-    )
-    @JoinColumn (
-            name = "pabellon_id",
-            foreignKey = @ForeignKey(name = "FK_PABELLON_ID")
-    )
-    private Pabellon pabellon;
-
     public Aula(Integer id, Integer nroAula, String medidas, Integer cantidadPupitres, Pizarra pizarra, LocalDateTime fechaAlta, LocalDateTime fechaUltimaModificaion) {
         this.id = id;
         this.nroAula = nroAula;
@@ -135,13 +122,6 @@ public class Aula implements Serializable {
         this.fechaUltimaModificaion = fechaUltimaModificaion;
     }
 
-    public Pabellon getPabellon() {
-        return pabellon;
-    }
-
-    public void setPabellon(Pabellon pabellon) {
-        this.pabellon = pabellon;
-    }
     @PrePersist
     private void antesDePersistir(){
         this.fechaAlta = LocalDateTime.now();
