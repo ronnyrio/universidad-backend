@@ -11,18 +11,19 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/carreras")
-public class CarreraController {
+public class CarreraController extends GenericController<Carrera, CarreraDAO> {
 
-    private final CarreraDAO carreraDAO;
+    private final CarreraDAO service;
 
     @Autowired
-    public CarreraController(CarreraDAO carreraDAO) {
-        this.carreraDAO = carreraDAO;
+    public CarreraController(CarreraDAO service) {
+        super(service);
+        this.service = service;
     }
 
     @GetMapping
     public List<Carrera> obtenerTodos() {
-        List<Carrera> carreras = (List<Carrera>) carreraDAO.findAll();
+        List<Carrera> carreras = (List<Carrera>) service.findAll();
         if (carreras.isEmpty()) {
             throw new BadRequestException("no existe ninguna carrera");
         }
@@ -31,7 +32,7 @@ public class CarreraController {
 
     @GetMapping("/{codigo}")
     public Carrera obtenerPorId(@PathVariable(value = "codigo", required = false) Integer id) {
-        Optional<Carrera> oCarrera = carreraDAO.findById(id);
+        Optional<Carrera> oCarrera = service.findById(id);
         if (!oCarrera.isPresent()) {
             throw new BadRequestException(String.format("no existe ningún ID de la carrera finu", id));
         }
@@ -46,25 +47,32 @@ public class CarreraController {
         if (carrera.getCantidadMaterias() < 0) {
             throw new BadRequestException("El campo cantidad de materias no puede ser negativo");
         }
-        return carreraDAO.save(carrera);
+        return service.save(carrera);
 
     }
 
     @PutMapping("/{id}")
     public Carrera actualizarCarrera(@PathVariable Integer id, @RequestBody Carrera carrera) {
         Carrera carreraUpdate = null;
-        Optional<Carrera> oCarrera = carreraDAO.findById(id);
+        Optional<Carrera> oCarrera = service.findById(id);
         if (!oCarrera.isPresent()) {
             throw new BadRequestException(String.format("no existe ningún ID de la carrera finu", id));
         }
+        if (carrera.getCantidadAnios() < 0) {
+            throw new BadRequestException("El campo cantidad de años no puede ser negativo finu");
+        }
+        if (carrera.getCantidadMaterias() < 0) {
+            throw new BadRequestException("El campo cantidad de materias no puede ser negativo");
+        }
         carreraUpdate = oCarrera.get();
         carreraUpdate.setCantidadAnios(carrera.getCantidadAnios());
-        carreraUpdate.setCantidadMaterias(carreraUpdate.getCantidadMaterias());
-        return carreraDAO.save(carreraUpdate);
+        carreraUpdate.setNombre(carrera.getNombre());
+        carreraUpdate.setCantidadMaterias(carrera.getCantidadMaterias());
+        return service.save(carreraUpdate);
     }
 
     @DeleteMapping("/{id}")
     public void eliminarCarrera(@PathVariable Integer id){
-        carreraDAO.deletedById(id);
+        service.deletedById(id);
     }
 }
