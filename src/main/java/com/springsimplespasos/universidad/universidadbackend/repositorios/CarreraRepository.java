@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CarreraRepository extends JpaRepository<Carrera, Integer> {
+public interface CarreraRepository extends CrudRepository<Carrera, Integer> {
 
     //@Query("select c from Carrera c where c.nombre like %?1%")
     Iterable<Carrera> findCarrerasByNombreContains(String nombre);
