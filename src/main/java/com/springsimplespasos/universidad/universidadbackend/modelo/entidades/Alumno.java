@@ -18,7 +18,7 @@ public class Alumno extends Persona {
             }
     )
     @JoinColumn(name = "carrera_id")
-    @JsonIgnoreProperties({"hibernateLazyInicializer", "alumnos"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "alumnos"})
     private Carrera carrera;
 
     public Alumno() {

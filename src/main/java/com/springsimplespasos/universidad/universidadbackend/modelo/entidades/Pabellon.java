@@ -1,47 +1,45 @@
 package com.springsimplespasos.universidad.universidadbackend.modelo.entidades;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
-@Table(name = "personas")
-@Inheritance(strategy = InheritanceType.JOINED)
-
-public abstract class Persona implements Serializable {
+@Table(name = "pabellones")
+public class Pabellon implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(nullable = false, length = 60)
+    @Column(name = "metros_cuadrados")
+    private Double mts2;
+    @Column(name = "nombre_pabellon", unique = true, nullable = false)
     private String nombre;
-    @Column(nullable = false, length = 60)
-    private String apellido;
-    @Column(nullable = false, unique = true, length = 10)
-    private String dni;
-    @Column(name = "fecha_alta")
-    private LocalDateTime fechaAlta;
-    @Column(name = "fecha_modificacion")
-    private LocalDateTime fechaModificacion;
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "codigoPostal", column = @Column(name = "codigo_postal")),
             @AttributeOverride(name = "dpto", column = @Column(name = "departamento"))
     })
     private Direccion direccion;
+    @Column(name = "fecha_alta")
+    private LocalDateTime fechaAlta;
+    @Column(name = "fecha_modificacion")
+    private LocalDateTime fechaModificacion;
+    @OneToMany(
+            mappedBy = "pabellon",
+            fetch = FetchType.LAZY
+    )
+    private Set<Aula> aulas;
 
-    public Persona() {
+    public Pabellon() {
     }
 
-    public Persona(Integer id, String nombre, String apellido, String dni, Direccion direccion) {
+    public Pabellon(Integer id, Double mts2, String nombre, Direccion direccion) {
         this.id = id;
+        this.mts2 = mts2;
         this.nombre = nombre;
-        this.apellido = apellido;
-        this.dni = dni;
         this.direccion = direccion;
     }
 
@@ -53,6 +51,14 @@ public abstract class Persona implements Serializable {
         this.id = id;
     }
 
+    public Double getMts2() {
+        return mts2;
+    }
+
+    public void setMts2(Double mts2) {
+        this.mts2 = mts2;
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -61,20 +67,12 @@ public abstract class Persona implements Serializable {
         this.nombre = nombre;
     }
 
-    public String getApellido() {
-        return apellido;
+    public Direccion getDireccion() {
+        return direccion;
     }
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
-    public String getDni() {
-        return dni;
-    }
-
-    public void setDni(String dni) {
-        this.dni = dni;
+    public void setDireccion(Direccion direccion) {
+        this.direccion = direccion;
     }
 
     public LocalDateTime getFechaAlta() {
@@ -93,12 +91,12 @@ public abstract class Persona implements Serializable {
         this.fechaModificacion = fechaModificacion;
     }
 
-    public Direccion getDireccion() {
-        return direccion;
+    public Set<Aula> getAulas() {
+        return aulas;
     }
 
-    public void setDireccion(Direccion direccion) {
-        this.direccion = direccion;
+    public void setAulas(Set<Aula> aulas) {
+        this.aulas = aulas;
     }
 
     @PrePersist
@@ -113,14 +111,13 @@ public abstract class Persona implements Serializable {
 
     @Override
     public String toString() {
-        return "Persona{" +
+        return "Pabellon{" +
                 "id=" + id +
+                ", mts2=" + mts2 +
                 ", nombre='" + nombre + '\'' +
-                ", apellido='" + apellido + '\'' +
-                ", dni='" + dni + '\'' +
-                ", fechaAlta=" + fechaAlta +
-                ", fechaModificacion=" + fechaModificacion +
                 ", direccion=" + direccion +
+                ", fechaAlta=" + fechaAlta +
+                ", fechaUltimaModificacion=" + fechaModificacion +
                 '}';
     }
 
@@ -128,13 +125,12 @@ public abstract class Persona implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Persona persona = (Persona) o;
-        return id.equals(persona.id) && dni.equals(persona.dni);
+        Pabellon pabellon = (Pabellon) o;
+        return id.equals(pabellon.id) && nombre.equals(pabellon.nombre);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, dni);
+        return Objects.hash(id, nombre);
     }
-
 }

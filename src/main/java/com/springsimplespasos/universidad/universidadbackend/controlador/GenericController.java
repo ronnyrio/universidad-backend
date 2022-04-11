@@ -1,41 +1,45 @@
 package com.springsimplespasos.universidad.universidadbackend.controlador;
 
 import com.springsimplespasos.universidad.universidadbackend.exception.BadRequestException;
-import com.springsimplespasos.universidad.universidadbackend.modelo.entidades.Persona;
-import com.springsimplespasos.universidad.universidadbackend.servicios.contratos.GenericDAO;
+import com.springsimplespasos.universidad.universidadbackend.servicios.contratos.GenericoDAO;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class GenericController <E, S extends GenericDAO<E>> {
+public class GenericController <E, S extends GenericoDAO<E>> {
 
     protected final S service;
-    public String nombreEntidad;
+    protected String nombreEntidad;
 
     public GenericController(S service) {
         this.service = service;
     }
 
     @GetMapping
-    public List<E> obtenerTodos(){
+    public ResponseEntity<?> obtenerTodos(){
+        Map<String, Object> mensaje = new HashMap<>();
         List<E> listado = (List<E>) service.findAll();
-        if (listado.isEmpty()) {
-            throw new BadRequestException(String.format("No se han encuentradpo %ss", nombreEntidad));
+
+        if(listado.isEmpty()) {
+            //throw new BadRequestException(String.format("No se han encontrado %ss", nombreEntidad));
+            mensaje.put("success", Boolean.FALSE);
+            mensaje.put("mensaje", String.format("No existen %ss", nombreEntidad));
+            return ResponseEntity.badRequest().body(mensaje);
         }
-        return listado;
+
+        mensaje.put("success", Boolean.TRUE);
+        mensaje.put("datos", listado);
+
+        return ResponseEntity.ok(mensaje);
     }
 
-    @PostMapping
-    public Persona altaAlumno(@RequestBody E alumno) {
-        return service.save(alumno);
-    }
+    //obtenerPorID (Id)
 
-    //obtener por id (id)
+    //borrarEntidadPorId (Id)
 
-    //borrar entidad por id (id)
-
-    //alta entidad (Entidad)
+    //altaEntidad (Entidad)
 
 }

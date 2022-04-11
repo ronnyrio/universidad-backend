@@ -8,17 +8,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 
 import java.util.List;
 
 @SpringBootApplication
-public class UniversidadBackendApplication {
+public class UniversidadBackendApplication  {
+
 
 	public static void main(String[] args) {
-		SpringApplication.run(UniversidadBackendApplication.class, args).getBeanDefinitionNames();
+		String[] beanDefinitionNames = SpringApplication.run(UniversidadBackendApplication.class, args).getBeanDefinitionNames();
+		/*for(String str : beanDefinitionNames){
+			System.out.println(str);
+		}*/
 	}
+
 }
-
-
-
