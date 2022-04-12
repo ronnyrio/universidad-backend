@@ -14,6 +14,15 @@ public class Empleado extends Persona {
     @Column(name = "tipo_empleado")
     @Enumerated(EnumType.STRING)
     private TipoEmpleado tipoEmpleado;
+    @OneToOne(
+            optional = true,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(
+            name = "pabellon_id",
+            foreignKey = @ForeignKey(name = "FK_PABELLON_ID")
+    )
+    private Pabellon pabellon;
 
     public Empleado() {
     }
@@ -38,6 +47,14 @@ public class Empleado extends Persona {
 
     public void setTipoEmpleado(TipoEmpleado tipoEmpleado) {
         this.tipoEmpleado = tipoEmpleado;
+    }
+
+    public Pabellon getPabellon() {
+        return pabellon;
+    }
+
+    public void setPabellon(Pabellon pabellon) {
+        this.pabellon = pabellon;
     }
 
     @Override
